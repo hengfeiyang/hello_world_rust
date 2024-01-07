@@ -5,6 +5,16 @@ edition.workspace = true
 license.workspace = true
 
 [dependencies]
+serde.workspace = true
 serde_json.workspace = true
 simd-json.workspace = true
 tokio.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+criterion = { version = "0.5", features = ["async_tokio"] }
+pprof = { version = "0.13", features = ["criterion", "flamegraph"] }
+
+[[bench]]
+name = "json"
+harness = false

@@ -1,5 +1,5 @@
 [workspace]
-members = ["memory_cache", "flatten", "tprun"]
+members = ["memory_cache", "flatten", "tprun", "json"]
 resolver = "2"
 
 
@@ -45,13 +45,13 @@ rs-snowflake = "0.6"
 rand = "0.8"
 flatten-json-object = "0.6"
 heed = "0.20.0-alpha.3"
-tempfile = "3.7.0" 
+tempfile = "3.7.0"
 uuid = { version = "1.2", features = ["v4", "fast-rng", "macro-diagnostics"] }
 jsonwebtoken = "9.1.0"
 mimalloc = { version = "0.1", default-features = false }
 lru = "0.10"
 hashlink = "0.8.4"
-dashmap = "5.5.3" 
+dashmap = "5.5.3"
 cpal = "0.12.1"
 actix-web = "4.4.0"
 arrow = { version = "49.0.0", features = ["simd", "prettyprint"] }

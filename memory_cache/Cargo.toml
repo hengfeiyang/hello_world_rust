@@ -1,0 +1,26 @@
+[package]
+name = "memory_cache"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+ahash.workspace = true
+anyhow.workspace = true
+arrow.workspace = true
+bytes.workspace = true
+dashmap.workspace = true
+lru.workspace = true
+hashbrown.workspace = true
+hashlink.workspace = true
+tokio.workspace = true
+once_cell.workspace = true
+snafu.workspace = true
+
+[dev-dependencies]
+criterion = { version = "0.5", features = ["async_tokio"] }
+pprof = { version = "0.13", features = ["criterion", "flamegraph"] }
+
+[[bench]]
+name = "t2"
+harness = false

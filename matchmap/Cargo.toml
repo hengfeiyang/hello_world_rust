@@ -1,0 +1,19 @@
+[package]
+name = "matchmap"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+promql-parser = "0.3.1"
+tokio.workspace = true
+once_cell.workspace = true
+
+[dev-dependencies]
+criterion = { version = "0.5", features = ["async_tokio"] }
+pprof = { version = "0.13", features = ["criterion", "flamegraph"] }
+ 
+[[bench]]
+name = "matchmap"
+harness = false

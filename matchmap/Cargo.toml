@@ -15,5 +15,5 @@ criterion = { version = "0.5", features = ["async_tokio"] }
 pprof = { version = "0.13", features = ["criterion", "flamegraph"] }
  
 [[bench]]
-name = "matchmap"
+name = "bench"
 harness = false

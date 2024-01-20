@@ -1,5 +1,13 @@
 [workspace]
-members = ["memory_cache", "flatten", "tprun", "json", "matchmap"]
+members = [
+    "memory_cache",
+    "flatten",
+    "tprun",
+    "json",
+    "matchmap",
+    "web",
+    "idgen",
+]
 resolver = "2"
 
 

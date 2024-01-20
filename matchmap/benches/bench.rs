@@ -5,7 +5,7 @@ use std::time::Duration;
 
 use matchmap::{stdmap, stdmatch};
 
-pub fn match_benchmark(c: &mut Criterion) {
+pub fn ben_benchmark(c: &mut Criterion) {
     let mut group: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> =
         c.benchmark_group("matchmap");
     group.measurement_time(Duration::from_secs(8));
@@ -27,7 +27,7 @@ pub fn match_benchmark(c: &mut Criterion) {
 criterion_group! {
     name = benches;
     config = Criterion::default().with_profiler(PProfProfiler::new(100, Output::Flamegraph(None)));
-    targets = match_benchmark
+    targets = ben_benchmark
 }
 
 criterion_main!(benches);

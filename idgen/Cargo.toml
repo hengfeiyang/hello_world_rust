@@ -1,26 +1,22 @@
 [package]
-name = "memory_cache"
+name = "idgen"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 
 [dependencies]
-ahash.workspace = true
-anyhow.workspace = true
-arrow.workspace = true
-bytes.workspace = true
-dashmap.workspace = true
-lru.workspace = true
-hashbrown.workspace = true
-hashlink.workspace = true
+bytes.workspace = true 
 tokio.workspace = true
 once_cell.workspace = true
-snafu.workspace = true
+anyhow.workspace = true
+rs-snowflake = "0.6.0"
+rand = "0.8"
+getrandom = "0.2.11"
 
 [dev-dependencies]
 criterion = { version = "0.5", features = ["async_tokio"] }
 pprof = { version = "0.13", features = ["criterion", "flamegraph"] }
-
+ 
 [[bench]]
 name = "bench"
 harness = false

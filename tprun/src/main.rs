@@ -44,6 +44,14 @@ async fn main() -> Result<(), anyhow::Error> {
     let task1 = test_job_control(1);
     let task2 = test_job_control(2);
     tokio::join!(task1, task2);
+
+    let n = 1234567890;
+    let base62 = int_to_base62(n);
+    println!("base62: {}", base62);
+
+    let result = base62_to_int(&base62);
+    println!("int: {}", result);
+
     Ok(())
 }
 
@@ -85,8 +93,8 @@ async fn test_job_control(batch: usize) -> Result<(), anyhow::Error> {
     let semaphore = Arc::new(Semaphore::new(5));
     let mut tasks = Vec::new();
     for i in 0..10 {
-        let permit = semaphore.clone().acquire_owned().await.unwrap(); 
-        let task = tokio::spawn(async move { 
+        let permit = semaphore.clone().acquire_owned().await.unwrap();
+        let task = tokio::spawn(async move {
             println!("task{} -> {} start", batch, i);
             tokio::time::sleep(Duration::from_secs(1)).await;
             println!("task{} -> {} end", batch, i);
@@ -99,4 +107,32 @@ async fn test_job_control(batch: usize) -> Result<(), anyhow::Error> {
         task.await?;
     }
     Ok(())
+}
+
+fn int_to_base62(mut n: i64) -> String {
+    let mut result = Vec::new();
+    let base = 64;
+    let digits = b"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
+
+    while n > 0 {
+        result.push(digits[(n % base) as usize]);
+        n /= base;
+    }
+
+    result.reverse();
+    String::from_utf8(result).unwrap()
+}
+
+fn base62_to_int(base62: &str) -> i64 {
+    let mut result: i64 = 0;
+    let base = 64;
+    let digits = b"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
+
+    for c in base62.chars() {
+        let index = digits.iter().position(|&x| x as char == c).unwrap() as i64;
+        result *= base;
+        result += index;
+    }
+
+    return result;
 }

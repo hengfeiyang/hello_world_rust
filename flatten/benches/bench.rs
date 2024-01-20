@@ -4,11 +4,11 @@ use std::time::Duration;
 
 use flatten::{v1, v2, v3};
 
-pub fn flatten_benchmark(c: &mut Criterion) {
+pub fn ben_benchmark(c: &mut Criterion) {
     let mut group: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> =
         c.benchmark_group("flatten");
     group.measurement_time(Duration::from_secs(8));
-    let json = r#"
+    let _json = r#"
     {
         "a": 1,
         "b.2": {
@@ -46,7 +46,7 @@ pub fn flatten_benchmark(c: &mut Criterion) {
 criterion_group! {
     name = benches;
     config = Criterion::default().with_profiler(PProfProfiler::new(100, Output::Flamegraph(None)));
-    targets = flatten_benchmark
+    targets = ben_benchmark
 }
 
 criterion_main!(benches);

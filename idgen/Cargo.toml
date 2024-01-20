@@ -9,6 +9,7 @@ bytes.workspace = true
 tokio.workspace = true
 once_cell.workspace = true
 anyhow.workspace = true
+parking_lot.workspace = true
 rs-snowflake = "0.6.0"
 rand = "0.8"
 getrandom = "0.2.11"

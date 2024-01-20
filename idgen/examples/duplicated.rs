@@ -20,7 +20,7 @@ async fn main() {
         let set = set.clone();
         let task = tokio::spawn(async move {
             for _ in 0..n {
-                let id = idgen::v1::generate();
+                let id = idgen::v3::generate();
                 let mut w = set.lock().await;
                 assert!(!w.contains(&id));
                 w.insert(id);

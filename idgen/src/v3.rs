@@ -19,7 +19,6 @@ pub fn generate() -> String {
 }
 
 /// The `SnowflakeIdGenerator` type is snowflake algorithm wrapper.
-#[derive(Copy, Clone, Debug)]
 pub struct SnowflakeIdGenerator {
     /// epoch used by the snowflake algorithm.
     epoch: SystemTime,
@@ -35,7 +34,6 @@ pub struct SnowflakeIdGenerator {
 }
 
 /// The `SnowflakeIdBucket` type is snowflake-id-bucket it easy to get id also have a id buffer.
-#[derive(Clone, Debug)]
 pub struct SnowflakeIdBucket {
     /// Hidden the `SnowflakeIdGenerator` in bucket .
     snowflake_id_generator: SnowflakeIdGenerator,

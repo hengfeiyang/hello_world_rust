@@ -1,0 +1,19 @@
+[package]
+name = "hash"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+ahash.workspace = true
+anyhow.workspace = true
+bytes.workspace = true
+tokio.workspace = true
+
+[dev-dependencies]
+criterion = { version = "0.5", features = ["async_tokio"] }
+pprof = { version = "0.13", features = ["criterion", "flamegraph"] }
+
+[[bench]]
+name = "bench"
+harness = false

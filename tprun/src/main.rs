@@ -1,7 +1,9 @@
+#![feature(btree_cursors)]
+
 use arrow::{json::ReaderBuilder, record_batch::RecordBatch};
 use arrow_schema::{DataType, Field, Schema};
 use get_size::GetSize;
-use std::{mem, sync::Arc, time::Duration};
+use std::{mem, ops::Bound, sync::Arc, time::Duration};
 use tokio::sync::Semaphore;
 
 struct MyStruct {
@@ -22,35 +24,19 @@ impl GetSize for MyStruct {
 
 #[tokio::main]
 async fn main() -> Result<(), anyhow::Error> {
-    let size = mem::size_of::<i32>();
-    println!("Size of MyStruct: {} bytes", size);
-    let size = mem::size_of::<String>();
-    println!("Size of MyStruct: {} bytes", size);
-    let size = mem::size_of::<MyStruct>();
-    println!("Size of MyStruct: {} bytes", size);
-
-    let mut my_struct = MyStruct {
-        x: 42,
-        y: String::from("hellohellohellohellohellohellohellohellohellohll0hello"),
-        z: None,
-    };
-    let actual_size = my_struct.get_size();
-    println!("Actual size of my_struct: {} bytes", actual_size);
-
-    my_struct.z = Some(generate_recordbatch());
-    let actual_size = my_struct.get_size();
-    println!("Actual size of my_struct: {} bytes", actual_size);
-
-    let task1 = test_job_control(1);
-    let task2 = test_job_control(2);
-    tokio::join!(task1, task2);
-
-    let n = 1234567890;
-    let base62 = int_to_base62(n);
-    println!("base62: {}", base62);
-
-    let result = base62_to_int(&base62);
-    println!("int: {}", result);
+    let mut hash_data = std::collections::BTreeMap::new();
+    hash_data.insert(3333, "3");
+    hash_data.insert(1111, "1");
+    hash_data.insert(5555, "5");
+    hash_data.insert(5555, "6");
+    hash_data.insert(7777, "7");
+    let  mut cursor = hash_data.lower_bound(Bound::Included(&4444));
+    if cursor.key().is_none() {
+        cursor.move_next();
+    } 
+    println!("{:?}", cursor.key_value());
+    cursor.move_next();
+    println!("{:?}", cursor.key_value());
 
     Ok(())
 }

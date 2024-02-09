@@ -9,6 +9,7 @@ ahash.workspace = true
 anyhow.workspace = true
 bytes.workspace = true
 cityhasher = { version = "0.1", default-features = false }
+gxhash = "3.1.1"
 murmur3 = "0.5.2"
 tokio.workspace = true
 xxhash-rust.workspace = true

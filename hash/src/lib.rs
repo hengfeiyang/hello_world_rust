@@ -1,6 +1,7 @@
 pub mod cityhash;
 pub mod default_hasher;
 pub mod fnv;
+pub mod gxhash;
 pub mod murmur3;
 pub mod xxhash;
 

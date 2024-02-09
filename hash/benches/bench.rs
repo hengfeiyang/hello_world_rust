@@ -8,13 +8,14 @@ pub fn ben_benchmark(c: &mut Criterion) {
         c.benchmark_group("idgen");
     group.measurement_time(Duration::from_secs(8));
     let key = "hello";
-    for alias in ["fnv", "defaultHash", "xxhash", "murmur3", "cityhash"] {
+    for alias in ["fnv", "defaultHash", "xxhash", "murmur3", "cityhash","gxhash"] {
         let mut h: Box<dyn Sum64> = match alias {
             "fnv" => Box::new(fnv::new()),
             "defaultHash" => Box::new(default_hasher::new()),
             "xxhash" => Box::new(xxhash::new()),
             "murmur3" => Box::new(murmur3::new()),
             "cityhash" => Box::new(cityhash::new()),
+            "gxhash" => Box::new(gxhash::new()),
             _ => panic!("not support version"),
         };
         group.bench_function(BenchmarkId::from_parameter(format!("{alias}-sum64")), |b| {

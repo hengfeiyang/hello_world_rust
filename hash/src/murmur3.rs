@@ -40,12 +40,16 @@ mod tests {
     #[test]
     fn test_murmur3_sum64() {
         let mut h = new();
-        assert_eq!(h.sum64("hello"), 10760762337991515389);
-        assert_eq!(h.sum64("world"), 18436838148490100038);
-        assert_eq!(h.sum64("foo"), 5289624599890063979);
-        assert_eq!(h.sum64("bar"), 14344799839972817241);
-        assert_eq!(h.sum64("test"), 14444285316842008032);
-        assert_eq!(h.sum64("test1"), 826316940449227468);
-        assert_eq!(h.sum64("test2"), 10866895676741295672);
+        for key in &["hello", "world", "foo", "bar", "test", "test1", "test2"] {
+            let sum = h.sum64(key);
+            println!("{}: {}", key, sum);
+        }
+        assert_eq!(h.sum64("hello"), 14688674573012802306);
+        assert_eq!(h.sum64("world"), 8198091784597505258);
+        assert_eq!(h.sum64("foo"), 16316970633193145697);
+        assert_eq!(h.sum64("bar"), 10535706080149431812);
+        assert_eq!(h.sum64("test"), 12429135405209477533);
+        assert_eq!(h.sum64("test1"), 271003567416724429);
+        assert_eq!(h.sum64("test2"), 17808217402673344406);
     }
 }

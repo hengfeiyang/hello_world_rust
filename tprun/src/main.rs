@@ -3,7 +3,7 @@
 use arrow::{json::ReaderBuilder, record_batch::RecordBatch};
 use arrow_schema::{DataType, Field, Schema};
 use get_size::GetSize;
-use std::{mem, ops::Bound, sync::Arc, time::Duration};
+use std::{mem, ops::Bound, str::FromStr, sync::Arc, time::Duration};
 use tokio::sync::Semaphore;
 
 struct MyStruct {
@@ -22,21 +22,29 @@ impl GetSize for MyStruct {
     }
 }
 
+#[derive(Debug, PartialEq)]
+enum Color {
+    Red,
+    Green,
+    Blue,
+}
+
+impl std::str::FromStr for Color {
+    type Err = &'static str;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "red" => Ok(Color::Red),
+            "green" => Ok(Color::Green),
+            "blue" => Ok(Color::Blue),
+            _ => Err("no match color"),
+        }
+    }
+}
+
 #[tokio::main]
 async fn main() -> Result<(), anyhow::Error> {
-    let mut hash_data = std::collections::BTreeMap::new();
-    hash_data.insert(3333, "3");
-    hash_data.insert(1111, "1");
-    hash_data.insert(5555, "5");
-    hash_data.insert(5555, "6");
-    hash_data.insert(7777, "7");
-    let  mut cursor = hash_data.lower_bound(Bound::Included(&4444));
-    if cursor.key().is_none() {
-        cursor.move_next();
-    } 
-    println!("{:?}", cursor.key_value());
-    cursor.move_next();
-    println!("{:?}", cursor.key_value());
+    let v : Color=  "red".parse::<Color>().unwrap();
 
     Ok(())
 }

@@ -1,10 +1,10 @@
-use hash::fnv::new_default_hasher;
+use hash::{default_hasher, Sum64};
 
 #[tokio::main]
 async fn main() {
-    let hash = new_default_hasher();
+    let mut h = default_hasher::new();
     for key in ["hello", "world", "foo", "bar", "baz"].iter() {
-        let ret = hash.sum64(key);
+        let ret = h.sum64(key);
         println!("Hash of {} is {}", key, ret);
-    } 
+    }
 }

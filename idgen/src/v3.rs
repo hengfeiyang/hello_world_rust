@@ -7,7 +7,7 @@ use once_cell::sync::Lazy;
 use parking_lot::Mutex;
 use svix_ksuid::{Ksuid, KsuidLike};
 
-static IDER: Lazy<Mutex<SnowflakeIdBucket>> = Lazy::new(|| Mutex::new(SnowflakeIdBucket::new(1)));
+static IDER: Lazy<Mutex<SnowflakeIdGenerator>> = Lazy::new(|| Mutex::new(SnowflakeIdGenerator::new(1)));
 
 pub fn init() -> Result<(), anyhow::Error> {
     _ = generate();
@@ -15,7 +15,7 @@ pub fn init() -> Result<(), anyhow::Error> {
 }
 
 pub fn generate() -> String {
-    let id = IDER.lock().get_id();
+    let id = IDER.lock().generate();
     id.to_string()
 }
 

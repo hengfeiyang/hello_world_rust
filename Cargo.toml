@@ -8,6 +8,8 @@ members = [
     "web",
     "idgen",
     "hash",
+    "nats",
+    "mutex"
 ]
 resolver = "2"
 
@@ -63,5 +65,5 @@ hashlink = "0.8.4"
 dashmap = "5.5.3"
 cpal = "0.12.1"
 actix-web = "4.4.0"
-arrow = { version = "49.0.0", features = ["simd", "prettyprint"] }
-arrow-schema = "49"
+arrow = { version = "50.0.0", features = ["prettyprint"] }
+arrow-schema = "50"

@@ -1,5 +1,5 @@
 [package]
-name = "web"
+name = "nats"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
@@ -9,12 +9,12 @@ ahash.workspace = true
 anyhow.workspace = true
 arrow.workspace = true
 arrow-schema.workspace = true
+# async-nats = "0.33.0"
+async-nats = { version = "0.33.0", git = "https://github.com/nats-io/nats.rs", rev = "8696d421b0d450432def7b2b91471b964193e80e" }
+futures.workspace = true
+
+futures-util = "0.3.30"
 get-size = {version = "0.1", features = ["derive"]}
 serde_json.workspace = true
+tokenizers = { version = "0.15.2", features = ["hf-hub"] }
 tokio.workspace = true
-tokio-util = "0.7"
-actix-web-actors = "4.2.0"
-bytes.workspace = true
-mime = "0.3.17"
-futures-core = "0.3.30"
-futures.workspace = true

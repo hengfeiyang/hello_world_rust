@@ -7,6 +7,8 @@ license.workspace = true
 [dependencies]
 memchr.workspace = true
 tokio.workspace = true
+parking_lot.workspace = true
+once_cell.workspace = true
 
 [dev-dependencies]
 criterion = { version = "0.5", features = ["async_tokio"] }

@@ -1,0 +1,17 @@
+[package]
+name = "find"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+memchr.workspace = true
+tokio.workspace = true
+
+[dev-dependencies]
+criterion = { version = "0.5", features = ["async_tokio"] }
+pprof = { version = "0.13", features = ["criterion", "flamegraph"] }
+
+[[bench]]
+name = "bench"
+harness = false

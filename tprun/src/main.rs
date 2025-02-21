@@ -30,5 +30,13 @@ async fn main() -> Result<(), anyhow::Error> {
     println!("process cpu_usage: {:?}", process_cpu_usage);
     println!("process memory_usage: {:?}", process_memory_usage);
 
+    for i in 0..10 {
+        let memory_usage_v1 = sysinfo::mem::get_process_memory_usage();
+        let memory_usage_v2 = sysinfo::mem::get_memory_usage_from_memory_stats();
+        println!("memory_usage_v1: {:?}", memory_usage_v1);
+        println!("memory_usage_v2: {:?}", memory_usage_v2);
+        tokio::time::sleep(std::time::Duration::from_secs(1)).await;
+    }
+
     Ok(())
 }

@@ -27,7 +27,7 @@ pub fn get_cpu_usage() -> f32 {
     let mut system = sysinfo::System::new_with_specifics(
         RefreshKind::nothing().with_cpu(CpuRefreshKind::everything()),
     );
-    std::thread::sleep(sysinfo::MINIMUM_CPU_UPDATE_INTERVAL);
+    std::thread::sleep(std::time::Duration::from_millis(10));
     system.refresh_cpu_all();
     let cpus = system.cpus();
     if cpus.is_empty() {
@@ -44,7 +44,7 @@ pub fn get_process_cpu_usage() -> f32 {
         return 0.0;
     };
     let mut system = sysinfo::System::new_all();
-    std::thread::sleep(sysinfo::MINIMUM_CPU_UPDATE_INTERVAL * 2);
+    std::thread::sleep(std::time::Duration::from_millis(10));
     system.refresh_processes_specifics(
         ProcessesToUpdate::Some(&[pid]),
         false,

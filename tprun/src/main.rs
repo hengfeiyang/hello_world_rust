@@ -5,8 +5,15 @@ mod sysinfo;
 async fn main() -> Result<(), anyhow::Error> {
     let cpu_limit = sysinfo::get_cpu_limit();
     let memory_limit = sysinfo::get_memory_limit();
+    let hostname = sysinfo::get_hostname();
+    let os_name = sysinfo::get_os_name();
+    let os_version = sysinfo::get_os_version();
     println!("cpu_limit: {:?}", cpu_limit);
     println!("memory_limit: {:?}", memory_limit);
+    println!("hostname: {:?}", hostname);
+    println!("os_name: {:?}", os_name);
+    println!("os_version: {:?}", os_version);
+    println!("--------------------------------");
 
     for _i in 0..10 {
         let cpu_usage = sysinfo::get_cpu_usage();

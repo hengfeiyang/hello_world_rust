@@ -20,6 +20,18 @@ pub mod mem;
 pub mod net;
 pub mod os;
 
+pub fn get_hostname() -> String {
+    os::get_hostname()
+}
+
+pub fn get_os_name() -> String {
+    os::get_os_name()
+}
+
+pub fn get_os_version() -> String {
+    os::get_os_version()
+}
+
 pub fn get_cpu_limit() -> usize {
     cgroup::get_cpu_limit()
 }

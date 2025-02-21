@@ -55,6 +55,8 @@ pub fn get_process_memory_usage() -> usize {
     };
     let mut system = sysinfo::System::new();
     system.refresh_processes(ProcessesToUpdate::Some(&[pid]), false);
+    let process = system.process(pid).unwrap();
+    println!("process: {:?}, {:?}", process.memory(), process.cpu_usage());
     system
         .process(pid)
         .map(|p| p.memory() as usize)

@@ -48,11 +48,7 @@ pub fn get_process_cpu_usage() -> f32 {
         RefreshKind::nothing().with_cpu(CpuRefreshKind::everything()),
     );
     std::thread::sleep(sysinfo::MINIMUM_CPU_UPDATE_INTERVAL);
-    system.refresh_processes_specifics(
-        ProcessesToUpdate::Some(&[pid]),
-        true,
-        ProcessRefreshKind::nothing().with_cpu(),
-    );
+    system.refresh_all();
     system
         .process(pid)
         .map(|p| p.cpu_usage())

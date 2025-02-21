@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use sysinfo::{CpuRefreshKind, ProcessesToUpdate};
+use sysinfo::{CpuRefreshKind, ProcessRefreshKind, ProcessesToUpdate};
 
 // Get number of CPUs
 pub fn get_cpu_num() -> usize {
@@ -38,13 +38,18 @@ pub fn get_cpu_usage() -> f32 {
 #[allow(dead_code)]
 pub fn get_process_cpu_usage() -> f32 {
     let Ok(pid) = sysinfo::get_current_pid() else {
+        println!("failed to get current pid");
         return 0.0;
     };
     let mut system = sysinfo::System::new();
-    system.refresh_processes(ProcessesToUpdate::Some(&[pid]), false);
+    system.refresh_processes_specifics(
+        ProcessesToUpdate::Some(&[pid]),
+        true,
+        ProcessRefreshKind::nothing().with_cpu(),
+    );
     system
         .process(pid)
-        .map(|p| p.cpu_usage() )
+        .map(|p| p.cpu_usage())
         .unwrap_or_default()
 }
 

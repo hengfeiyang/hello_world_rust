@@ -18,5 +18,11 @@ async fn main() -> Result<(), anyhow::Error> {
     println!("tcp_connections: {:?}", tcp_connections);
     println!("tcp_conn_established: {:?}", tcp_conn_established);
 
+    let cpu_limit = sysinfo::cgroup::get_cpu_limit();
+    let memory_limit = sysinfo::cgroup::get_memory_limit();
+
+    println!("cgroup cpu_limit: {:?}", cpu_limit);
+    println!("cgroup memory_limit: {:?}", memory_limit);
+
     Ok(())
 }

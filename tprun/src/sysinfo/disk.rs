@@ -13,29 +13,21 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-pub mod cgroup;
-pub mod cpu;
-pub mod disk;
-pub mod mem;
-pub mod net;
-pub mod os;
-
-pub fn get_cpu_limit() -> usize {
-    cgroup::get_cpu_limit()
+pub struct DiskUsage {
+    pub mount_point: String,
+    pub total_space: u64,
+    pub available_space: u64,
 }
 
-pub fn get_memory_limit() -> usize {
-    cgroup::get_memory_limit()
-}
-
-pub fn get_cpu_usage() -> f32 {
-    cpu::get_cpu_usage()
-}
-
-pub fn get_memory_usage() -> usize {
-    mem::get_memory_usage()
-}
-
-pub fn get_tcp_connections() -> usize {
-    net::get_tcp_connections(None)
+pub fn get_disk_usage() -> Vec<DiskUsage> {
+    let mut disks: Vec<_> = sysinfo::Disks::new_with_refreshed_list()
+        .iter()
+        .map(|d| DiskUsage {
+            mount_point: d.mount_point().to_str().unwrap().to_string(),
+            total_space: d.total_space(),
+            available_space: d.available_space(),
+        })
+        .collect();
+    disks.sort_by(|a, b| b.mount_point.cmp(&a.mount_point));
+    disks
 }

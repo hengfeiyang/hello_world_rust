@@ -13,8 +13,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-use sysinfo::{CpuRefreshKind, System};
-
 /// Get cpu limit by cgroup or return the node cpu cores
 pub fn get_cpu_limit() -> usize {
     let mut cpu_num = read_cpu_cgroup_v1();
@@ -28,9 +26,7 @@ pub fn get_cpu_limit() -> usize {
             cpu_num / 100000
         }
     } else {
-        let mut system = sysinfo::System::new();
-        system.refresh_cpu_list(CpuRefreshKind::nothing());
-        system.cpus().len()
+        super::cpu::get_cpu_num()
     }
 }
 

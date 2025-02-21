@@ -57,7 +57,7 @@ pub enum TcpConnState {
 
 // only support linux for now
 #[cfg(target_os = "linux")]
-pub fn get_tcp_connection_num(state: Option<TcpConnState>) -> usize {
+pub fn get_tcp_connections(state: Option<TcpConnState>) -> usize {
     let Ok(file) = std::fs::File::open("/proc/net/tcp") else {
         return 0;
     };
@@ -104,7 +104,7 @@ fn get_tcp_connection_state(state: &str) -> Option<TcpConnState> {
 }
 
 #[cfg(not(target_os = "linux"))]
-pub fn get_tcp_connection_num(_state: Option<TcpConnState>) -> usize {
+pub fn get_tcp_connections(_state: Option<TcpConnState>) -> usize {
     0
 }
 
@@ -114,15 +114,15 @@ mod tests {
 
     #[test]
     #[cfg(target_os = "linux")]
-    fn test_sysinfo_get_tcp_connection_num() {
-        assert!(get_tcp_connection_num(None) > 0);
-        assert!(get_tcp_connection_num(Some(TcpConnState::Established)) > 0);
+    fn test_sysinfo_get_tcp_connections() {
+        assert!(get_tcp_connections(None) > 0);
+        assert!(get_tcp_connections(Some(TcpConnState::Established)) > 0);
     }
 
     #[test]
     #[cfg(not(target_os = "linux"))]
-    fn test_sysinfo_get_tcp_connection_num() {
-        assert_eq!(get_tcp_connection_num(None), 0);
-        assert_eq!(get_tcp_connection_num(Some(TcpConnState::Established)), 0);
+    fn test_sysinfo_get_tcp_connections() {
+        assert_eq!(get_tcp_connections(None), 0);
+        assert_eq!(get_tcp_connections(Some(TcpConnState::Established)), 0);
     }
 }

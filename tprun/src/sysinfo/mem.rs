@@ -15,18 +15,36 @@
 
 use sysinfo::ProcessesToUpdate;
 
-// Get total memory in bytes
-pub fn get_total_memory() -> usize {
+pub struct MemoryStats {
+    pub total_memory: usize,
+    pub used_memory: usize,
+    pub free_memory: usize,
+}
+
+/// Get memory stats
+pub fn get_memory_stats() -> MemoryStats {
     let mut system = sysinfo::System::new();
     system.refresh_memory();
-    system.total_memory() as usize
+    MemoryStats {
+        total_memory: system.total_memory() as usize,
+        used_memory: system.used_memory() as usize,
+        free_memory: system.free_memory() as usize,
+    }
+}
+
+// Get total memory in bytes
+pub fn get_total_memory() -> usize {
+    get_memory_stats().total_memory
 }
 
 // Get used memory in bytes
 pub fn get_memory_usage() -> usize {
-    let mut system = sysinfo::System::new();
-    system.refresh_memory();
-    system.used_memory() as usize
+    get_memory_stats().used_memory
+}
+
+// Get free memory in bytes
+pub fn get_free_memory() -> usize {
+    get_memory_stats().free_memory
 }
 
 // Get process memory usage in bytes
@@ -43,33 +61,22 @@ pub fn get_process_memory_usage() -> usize {
         .unwrap_or_default()
 }
 
-// Get memory usage from memory stats
-#[allow(dead_code)]
-pub fn get_memory_usage_from_memory_stats() -> usize {
-    memory_stats::memory_stats()
-        .map(|memory_stats| memory_stats.physical_mem)
-        .unwrap_or_default()
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
+    fn test_sysinfo_get_total_memory() {
+        assert!(get_total_memory() > 0);
+    }
+
+    #[test]
     fn test_sysinfo_get_memory_usage() {
-        let memory_usage_v1 = get_process_memory_usage();
-        let memory_usage_v2 = get_memory_usage_from_memory_stats();
-        // the diff should be less than 1%
-        let diff = if memory_usage_v1 > memory_usage_v2 {
-            memory_usage_v1 - memory_usage_v2
-        } else {
-            memory_usage_v2 - memory_usage_v1
-        };
-        let capp = memory_usage_v1 / 100;
-        println!("memory_usage: {}", memory_usage_v1);
-        println!("memory_stats: {}", memory_usage_v2);
-        println!("diff: {}", diff);
-        println!("capp: {}", capp);
-        assert!(diff <= capp);
+        assert!(get_memory_usage() > 0);
+    }
+
+    #[test]
+    fn test_sysinfo_get_process_memory_usage() {
+        assert!(get_process_memory_usage() > 0);
     }
 }

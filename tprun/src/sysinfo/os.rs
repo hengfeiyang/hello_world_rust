@@ -1,4 +1,4 @@
-// Copyright 2025 OpenObserve Inc.
+// Copyright 2024 OpenObserve Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published by
@@ -13,29 +13,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-pub mod cgroup;
-pub mod cpu;
-pub mod disk;
-pub mod mem;
-pub mod net;
-pub mod os;
-
-pub fn get_cpu_limit() -> usize {
-    cgroup::get_cpu_limit()
+pub fn get_os_name() -> String {
+    sysinfo::System::name().unwrap_or("unknown".to_string())
 }
 
-pub fn get_memory_limit() -> usize {
-    cgroup::get_memory_limit()
+pub fn get_os_version() -> String {
+    sysinfo::System::os_version().unwrap_or("unknown".to_string())
 }
 
-pub fn get_cpu_usage() -> f32 {
-    cpu::get_cpu_usage()
-}
-
-pub fn get_memory_usage() -> usize {
-    mem::get_memory_usage()
-}
-
-pub fn get_tcp_connections() -> usize {
-    net::get_tcp_connections(None)
+pub fn get_hostname() -> String {
+    sysinfo::System::host_name().unwrap_or("unknown".to_string())
 }

@@ -24,5 +24,11 @@ async fn main() -> Result<(), anyhow::Error> {
     println!("cgroup cpu_limit: {:?}", cpu_limit);
     println!("cgroup memory_limit: {:?}", memory_limit);
 
+    let process_cpu_usage = sysinfo::cpu::get_process_cpu_usage();
+    let process_memory_usage = sysinfo::mem::get_process_memory_usage();
+
+    println!("process cpu_usage: {:?}", process_cpu_usage);
+    println!("process memory_usage: {:?}", process_memory_usage);
+
     Ok(())
 }

@@ -42,6 +42,7 @@ pub fn get_process_cpu_usage() -> f32 {
         return 0.0;
     };
     let mut system = sysinfo::System::new();
+    std::thread::sleep(sysinfo::MINIMUM_CPU_UPDATE_INTERVAL);
     system.refresh_processes_specifics(
         ProcessesToUpdate::Some(&[pid]),
         true,

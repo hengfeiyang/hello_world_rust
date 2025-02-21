@@ -18,6 +18,7 @@ async fn main() -> Result<(), anyhow::Error> {
         println!("memory_usage: {:?}", memory_usage);
         println!("tcp_connections: {:?}", tcp_connections);
         println!("tcp_conn_established: {:?}", tcp_conn_established);
+        println!("--------------------------------");
         tokio::time::sleep(std::time::Duration::from_secs(1)).await;
     }
 

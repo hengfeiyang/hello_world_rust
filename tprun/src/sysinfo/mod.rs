@@ -29,11 +29,11 @@ pub fn get_memory_limit() -> usize {
 }
 
 pub fn get_cpu_usage() -> f32 {
-    cpu::get_cpu_usage()
+    cpu::get_process_cpu_usage()
 }
 
 pub fn get_memory_usage() -> usize {
-    mem::get_memory_usage()
+    mem::get_process_memory_usage()
 }
 
 pub fn get_tcp_connections() -> usize {

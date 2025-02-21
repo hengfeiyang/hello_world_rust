@@ -15,6 +15,10 @@ async fn main() -> Result<(), anyhow::Error> {
     println!("os_version: {:?}", os_version);
     println!("--------------------------------");
 
+    tokio::spawn(async move {
+        loop{}
+    });
+
     for _i in 0..10 {
         let cpu_usage = sysinfo::get_cpu_usage();
         let memory_usage = sysinfo::get_memory_usage();

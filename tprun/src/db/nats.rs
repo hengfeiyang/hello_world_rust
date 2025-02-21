@@ -1,8 +1,8 @@
 use std::pin::Pin;
 
-use super::{UpdateFn, Result};
-use bytes::Bytes;
+use super::{Result, UpdateFn};
 use async_trait::async_trait;
+use bytes::Bytes;
 
 pub async fn init() -> Result<()> {
     Ok(())
@@ -45,7 +45,7 @@ impl super::Db for NatsDb {
     ) -> Result<()> {
         println!("put into table {}", self.prefix);
         Ok(())
-    }  
+    }
     async fn put_with_callback(
         &self,
         _key: &str,
@@ -54,7 +54,7 @@ impl super::Db for NatsDb {
         callback: Box<UpdateFn>,
     ) -> Result<()> {
         println!("put with callback into table {}", self.prefix);
-        let _= callback(Some(Bytes::from("")));
+        let _ = callback(Some(Bytes::from("")));
         Ok(())
     }
 }

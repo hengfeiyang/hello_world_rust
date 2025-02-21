@@ -1,29 +1,22 @@
- 
 mod db;
-use db::Db; 
+mod sysinfo;
 
 #[tokio::main]
 async fn main() -> Result<(), anyhow::Error> {
-    let db = db::get_db().await;
-    db.create_table().await?;
-    let ret = db.get("abc").await?;
-    println!("get ret: {:?}", ret);
-    let out_var = "abc".to_string();
-    db.put_with_callback("/123", db::NEED_WATCH, None, Box::new(move |v|{
-        println!("callback: {:?}", v);
-        Ok(Some(bytes::Bytes::from(out_var)))
-    })).await?;
+    let cpu_num = sysinfo::cpu::get_cpu_num();
+    let cpu_usage = sysinfo::cpu::get_cpu_usage();
+    let memory_total = sysinfo::mem::get_total_memory();
+    let memory_used = sysinfo::mem::get_memory_usage();
+    let tcp_connections = sysinfo::net::get_tcp_connection_num(None);
+    let tcp_conn_established =
+        sysinfo::net::get_tcp_connection_num(Some(sysinfo::net::TcpConnState::Established));
 
-    let mut m = indexmap::IndexMap::new();
-    m.insert("a", "1");
-    m.insert("e", "1");
-    m.insert("b", "1");
-    m.insert("e", "2");
-    m.insert("c", "1");
-    m.insert("a", "2");
-    let keys = m.keys().map(|k|k.to_owned()).collect::<Vec<_>>();
-    assert_eq!(keys,["a", "e", "b", "c"]);
-    let values = m.values().map(|k|k.to_owned()).collect::<Vec<_>>();
-    assert_eq!(values, ["2", "2", "1", "1"]);
+    println!("cpu_num: {:?}", cpu_num);
+    println!("cpu_usage: {:?}", cpu_usage);
+    println!("memory_total: {:?}", memory_total);
+    println!("memory_used: {:?}", memory_used);
+    println!("tcp_connections: {:?}", tcp_connections);
+    println!("tcp_conn_established: {:?}", tcp_conn_established);
+
     Ok(())
 }

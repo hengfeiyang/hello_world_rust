@@ -1,7 +1,7 @@
 use std::pin::Pin;
 
+use super::{Result, UpdateFn};
 use async_trait::async_trait;
-use super::{UpdateFn, Result};
 use bytes::Bytes;
 
 pub async fn init() -> Result<()> {
@@ -45,7 +45,7 @@ impl super::Db for EtcdDb {
     ) -> Result<()> {
         println!("put into table {}", self.prefix);
         Ok(())
-    } 
+    }
     async fn put_with_callback(
         &self,
         _key: &str,

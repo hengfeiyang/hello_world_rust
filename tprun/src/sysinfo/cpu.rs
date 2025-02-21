@@ -44,8 +44,10 @@ pub fn get_process_cpu_usage() -> f32 {
         println!("failed to get current pid");
         return 0.0;
     };
-    let mut system = sysinfo::System::new_all();
-    std::thread::sleep(sysinfo::MINIMUM_CPU_UPDATE_INTERVAL*2);
+    let mut system = sysinfo::System::new_with_specifics(
+        RefreshKind::nothing().with_cpu(CpuRefreshKind::everything()),
+    );
+    std::thread::sleep(sysinfo::MINIMUM_CPU_UPDATE_INTERVAL);
     system.refresh_processes_specifics(
         ProcessesToUpdate::Some(&[pid]),
         false,
@@ -53,7 +55,7 @@ pub fn get_process_cpu_usage() -> f32 {
     );
     system
         .process(pid)
-        .map(|p| p.cpu_usage() )
+        .map(|p| p.cpu_usage())
         .unwrap_or_default()
 }
 

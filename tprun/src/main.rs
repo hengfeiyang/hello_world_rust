@@ -16,8 +16,6 @@ async fn main() -> Result<(), anyhow::Error> {
     println!("--------------------------------");
 
     tokio::spawn(async move {
-        let pid = ::sysinfo::get_current_pid();
-        println!("pid: {:?}", pid);
         let mut big_map = vec![123456; 1000000];
         loop {
             big_map.extend(vec![123456; 10000]);
@@ -26,8 +24,6 @@ async fn main() -> Result<(), anyhow::Error> {
     });
 
     for _i in 0..10 {
-        let pid = ::sysinfo::get_current_pid();
-        println!("pid: {:?}", pid);
         let cpu_usage = sysinfo::get_cpu_usage();
         let sys_cpu_usage = sysinfo::cpu::get_cpu_usage();
         let memory_usage = sysinfo::get_memory_usage();

@@ -2,34 +2,50 @@ use criterion::{black_box, criterion_group, criterion_main, BenchmarkId, Criteri
 use pprof::criterion::{Output, PProfProfiler};
 use std::time::Duration;
 
-use json::{v1, v2};
+use json::{serde, simd};
 
 pub fn ben_benchmark(c: &mut Criterion) {
     let mut group: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> =
         c.benchmark_group("json");
     group.measurement_time(Duration::from_secs(8));
-    let json = r#"
+    let json1 = r#"
     {
         "a": 1,
         "b.2": {
             "c": 2,
-            "d": {
-                "e": 3
-            }
+            "d": {"e": 3,"f": 4,"g": 5,"h": 6,"i": 7,"j": 8,"k": 9,"l": 10,"m": 11}
         }
     }"#;
-    let json: serde_json::Value = serde_json::from_str(json).unwrap();
-    for alias in ["v1", "v2"] {
+    let json2 = r#"
+    {
+        "a": 1,
+        "b.2": {
+            "c": 2,
+            "d": {"e": 3,"f": 4,"g": 5,"h": 6,"i": 7,"j": 8,"k": 9,"l": 10,"m": 11},
+            "e": {"e2": {"e3": {"e4": {"e5": {"e6": {"e7": {"e8": {"e9": {"e10": {"e11": "v12"}}}}}}}}}}
+        }
+    }"#;
+    let json1: serde_json::Value = serde_json::from_str(json1).unwrap();
+    let json2: serde_json::Value = serde_json::from_str(json2).unwrap();
+    for alias in ["serde", "simd"] {
         let h = match alias {
-            "v1" => v1::to_vec,
-            "v2" => v2::to_vec,
+            "serde" => serde::to_vec,
+            "simd" => simd::to_vec,
             _ => panic!("not support version"),
         };
         group.bench_function(
-            BenchmarkId::from_parameter(format!("{alias}-to_vec")),
+            BenchmarkId::from_parameter(format!("{alias}-simple-to_vec")),
             |b| {
                 b.iter(|| {
-                    let _ = h(black_box(&json));
+                    let _ = h(black_box(&json1));
+                })
+            },
+        );
+        group.bench_function(
+            BenchmarkId::from_parameter(format!("{alias}-complex-to_vec")),
+            |b| {
+                b.iter(|| {
+                    let _ = h(black_box(&json2));
                 })
             },
         );

@@ -1,3 +1,3 @@
 pub mod errors;
-pub mod v1;
-pub mod v2;
+pub mod serde;
+pub mod simd;

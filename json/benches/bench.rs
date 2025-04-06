@@ -25,19 +25,40 @@ pub fn ben_benchmark(c: &mut Criterion) {
             "e": {"e2": {"e3": {"e4": {"e5": {"e6": {"e7": {"e8": {"e9": {"e10": {"e11": "v12"}}}}}}}}}}
         }
     }"#;
-    let json1: serde_json::Value = serde_json::from_str(json1).unwrap();
-    let json2: serde_json::Value = serde_json::from_str(json2).unwrap();
+    let jsonv1: serde_json::Value = serde_json::from_str(json1).unwrap();
+    let jsonv2: serde_json::Value = serde_json::from_str(json2).unwrap();
     for alias in ["serde", "simd"] {
-        let h = match alias {
+        let h1 = match alias {
+            "serde" => serde::from_str::<serde_json::Value>,
+            "simd" => simd::from_str::<serde_json::Value>,
+            _ => panic!("not support version"),
+        };
+        let h2 = match alias {
             "serde" => serde::to_vec,
             "simd" => simd::to_vec,
             _ => panic!("not support version"),
         };
         group.bench_function(
+            BenchmarkId::from_parameter(format!("{alias}-simple-from_str")),
+            |b| {
+                b.iter(|| {
+                    let _ = h1(black_box(&json1));
+                })
+            },
+        );
+        group.bench_function(
+            BenchmarkId::from_parameter(format!("{alias}-complex-from_str")),
+            |b| {
+                b.iter(|| {
+                    let _ = h1(black_box(&json2));
+                })
+            },
+        );
+        group.bench_function(
             BenchmarkId::from_parameter(format!("{alias}-simple-to_vec")),
             |b| {
                 b.iter(|| {
-                    let _ = h(black_box(&json1));
+                    let _ = h2(black_box(&jsonv1));
                 })
             },
         );
@@ -45,7 +66,7 @@ pub fn ben_benchmark(c: &mut Criterion) {
             BenchmarkId::from_parameter(format!("{alias}-complex-to_vec")),
             |b| {
                 b.iter(|| {
-                    let _ = h(black_box(&json2));
+                    let _ = h2(black_box(&jsonv2));
                 })
             },
         );

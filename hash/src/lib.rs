@@ -1,3 +1,4 @@
+pub mod ahash;
 pub mod cityhash;
 pub mod default_hasher;
 pub mod fnv;

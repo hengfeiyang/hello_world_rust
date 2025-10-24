@@ -13,17 +13,18 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+use std::hash::Hasher;
+
 use super::Sum64;
 
-pub struct CityHash {}
-
-pub fn new() -> CityHash {
-    CityHash {}
+pub fn new() -> ahash::AHasher {
+    ahash::AHasher::default()
 }
 
-impl Sum64 for CityHash {
+impl Sum64 for ahash::AHasher {
     fn sum64(&mut self, key: &str) -> u64 {
-        cityhasher::hash(key)
+        self.write(key.as_bytes());
+        self.finish()
     }
 }
 
@@ -32,7 +33,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_cityhash_sum64() {
+    fn test_ahash_sum64() {
         let mut h = new();
         for key in &["hello", "world", "foo", "bar", "test", "test1", "test2"] {
             let sum = h.sum64(key);

@@ -8,9 +8,18 @@ pub fn ben_benchmark(c: &mut Criterion) {
         c.benchmark_group("idgen");
     group.measurement_time(Duration::from_secs(8));
     let key = "hello";
-    for alias in ["fnv", "defaultHash", "xxhash", "murmur3", "cityhash","gxhash"] {
+    for alias in [
+        "fnv",
+        "ahash",
+        "defaultHash",
+        "xxhash",
+        "murmur3",
+        "cityhash",
+        "gxhash",
+    ] {
         let mut h: Box<dyn Sum64> = match alias {
             "fnv" => Box::new(fnv::new()),
+            "ahash" => Box::new(ahash::new()),
             "defaultHash" => Box::new(default_hasher::new()),
             "xxhash" => Box::new(xxhash::new()),
             "murmur3" => Box::new(murmur3::new()),

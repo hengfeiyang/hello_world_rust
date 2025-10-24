@@ -21,6 +21,10 @@ pub fn new() -> DefaultHasher {
     DefaultHasher::new()
 }
 
+pub fn new_hasher() -> impl Hasher {
+    DefaultHasher::default()
+}
+
 impl Sum64 for DefaultHasher {
     fn sum64(&mut self, key: &str) -> u64 {
         self.write(key.as_bytes());
@@ -34,7 +38,7 @@ mod tests {
 
     #[test]
     fn test_default_hasher_sum64() {
-        let mut h = new(); 
+        let mut h = new();
         assert_eq!(h.sum64("hello"), 16350172494705860510);
         assert_eq!(h.sum64("world"), 1348462810646499051);
         assert_eq!(h.sum64("foo"), 13658606619662280602);

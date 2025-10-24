@@ -14,11 +14,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 use super::Sum64;
+use std::hash::Hasher;
 
 pub struct GxHash {}
 
 pub fn new() -> GxHash {
     GxHash {}
+}
+
+pub fn new_hasher() -> impl Hasher {
+    gxhash::GxHasher::with_seed(0)
 }
 
 impl Sum64 for GxHash {

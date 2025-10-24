@@ -21,6 +21,10 @@ pub fn new() -> ahash::AHasher {
     ahash::AHasher::default()
 }
 
+pub fn new_hasher() -> impl Hasher {
+    ahash::AHasher::default()
+}
+
 impl Sum64 for ahash::AHasher {
     fn sum64(&mut self, key: &str) -> u64 {
         self.write(key.as_bytes());

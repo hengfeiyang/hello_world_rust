@@ -14,11 +14,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 use super::Sum64;
-
+use std::hash::Hasher;
 pub struct CityHash {}
 
 pub fn new() -> CityHash {
     CityHash {}
+}
+
+pub fn new_hasher() -> impl Hasher {
+    cityhasher::CityHasher::new()
 }
 
 impl Sum64 for CityHash {
